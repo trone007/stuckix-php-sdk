@@ -2,8 +2,6 @@
 
 namespace Stuckix;
 
-;
-
 use Stuckix\Model\Builder\StacktraceBuilder;
 use Stuckix\Model\Event;
 use Stuckix\Model\EventException;
@@ -11,10 +9,11 @@ use Stuckix\Model\EventIdentifier;
 use Stuckix\Model\ExceptionData;
 use Stuckix\Model\Level;
 use Stuckix\Serializer\PayloadSerializer;
+use Stuckix\Transport\Http;
 
 class Client
 {
-	private Dsn $dsn;
+	private Http $transport;
 	private StacktraceBuilder $stacktraceBuilder;
 	private static ?Client $instance = null;
 
@@ -32,7 +31,7 @@ class Client
 
 	private function __construct(string $dsn)
 	{
-		$this->dsn = Dsn::ofString($dsn);
+		$this->transport = new Http(Dsn::ofString($dsn));
 		$this->stacktraceBuilder = new StacktraceBuilder();
 	}
 
@@ -47,8 +46,21 @@ class Client
 	{
 		$event = $this->prepareEvent($createEvent, $exception);
 
-		var_dump((new PayloadSerializer())->serialize($event));
-		return $event->getId();
+		try
+		{
+			$response = $this->transport->send($event)->wait();
+			$event = $response->getEvent();
+
+			if (null !== $event)
+			{
+				return $event->getId();
+			}
+		}
+		catch (\Throwable $exception)
+		{
+		}
+
+		return null;
 	}
 
 	private function prepareEvent(Event $event, ?EventException $eventException = null): ?Event

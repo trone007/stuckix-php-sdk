@@ -75,7 +75,7 @@ final class Dsn implements \Stringable
 
 	public function getApiEndpointUrl(): string
 	{
-		return $this->getBaseEndpointUrl().'/api/v1/trace/';
+		return $this->getBaseEndpointUrl().'api/v1/project/' . $this->token . '/trace';
 	}
 
 	public function __toString(): string
@@ -85,7 +85,7 @@ final class Dsn implements \Stringable
 
 	private function getBaseEndpointUrl(): string
 	{
-		$url = $this->scheme.'://'.$this->token.'@'.$this->host;
+		$url = $this->scheme.'://'. $this->host;
 
 		if (('http' === $this->scheme && 80 !== $this->port) || ('https' === $this->scheme && 443 !== $this->port))
 		{
