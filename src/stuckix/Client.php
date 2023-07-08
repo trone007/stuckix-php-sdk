@@ -48,6 +48,7 @@ class Client
 		$event = $this->prepareEvent($createEvent, $exception);
 
 		var_dump((new PayloadSerializer())->serialize($event));
+		return $event->getId();
 	}
 
 	private function prepareEvent(Event $event, ?EventException $eventException = null): ?Event
