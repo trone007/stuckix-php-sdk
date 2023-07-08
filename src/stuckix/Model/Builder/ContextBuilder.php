@@ -17,7 +17,6 @@ final class ContextBuilder
 	{
 		$functionName = null;
 		$rawFunctionName = null;
-		$strippedFilePath = $this->removePrefixFromFilePath($file);
 
 		if (isset($backtraceContext['class']) && isset($backtraceContext['function']))
 		{
@@ -44,7 +43,7 @@ final class ContextBuilder
 
 		return new Context(
 			$functionName,
-			$strippedFilePath,
+			basename($file),
 			$line,
 			$rawFunctionName,
 			Context::CONTEXT_FILENAME !== $file ? $file : null,
