@@ -1,0 +1,20 @@
+{
+    "name": "trone007/stuckix-php-sdk",
+    "description": "Stuckix sdk",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "trone007",
+            "email": "scouserlfc91@gmail.com"
+        },
+	{
+	    "name": "skomaroh",
+	    "email": "skomaroh@gmail.com"
+	}
+    ],
+    "autoload": {
+        "psr-4": {
+            "Stuckix\\": "src/"
+        }
+    }
+}
