@@ -71,7 +71,7 @@ final class ContextBuilder
 				if ($errorFile->valid())
 				{
 					$errorFile->seek($curline);
-					$fileContent[$line] = $errorFile->current();
+					$fileContent[$curline] = $errorFile->current();
 				}
 			}
 		}
