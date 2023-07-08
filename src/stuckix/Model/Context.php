@@ -17,6 +17,8 @@ final class Context
 	 * @param string|null $rawFunctionName
 	 * @param string|null $absoluteFilePath
 	 * @param array $variables
+	 * @param array $lines
+	 * @param string|null $relativePath
 	 */
 	public function __construct(
 		private ?string $functionName,
@@ -26,6 +28,7 @@ final class Context
 		private ?string $absoluteFilePath = null,
 		private array $variables = [],
 		private array $lines = [],
+		private ?string $relativePath = null
 	)
 	{	}
 
@@ -225,5 +228,13 @@ final class Context
 	public function getLines()
 	{
 		return $this->lines;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getRelativePath(): ?string
+	{
+		return $this->relativePath;
 	}
 }

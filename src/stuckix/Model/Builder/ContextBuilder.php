@@ -41,14 +41,21 @@ final class ContextBuilder
 			$functionName = $backtraceContext['function'];
 		}
 
+		$absolutePath = Context::CONTEXT_FILENAME !== $file ? $file : null;
+		$rootPath = $_SERVER['DOCUMENT_ROOT'] ?? '/';
+
+		$relativePath = str_replace($rootPath, '', $absolutePath);
+		$relativePath = ltrim($relativePath, '/');
+
 		return new Context(
 			$functionName,
 			basename($file),
 			$line,
 			$rawFunctionName,
-			Context::CONTEXT_FILENAME !== $file ? $file : null,
+			$absolutePath,
 			$this->getMethodArguments($backtraceContext),
 			$this->getRelatedLines($file, $line),
+			$relativePath
 		);
 	}
 
