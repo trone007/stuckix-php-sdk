@@ -17,6 +17,8 @@ class Client
 	private StacktraceBuilder $stacktraceBuilder;
 	private static ?Client $instance = null;
 
+	private array $extraData;
+
 	public static function get(string $dsn): ?Client
 	{
 		if (static::$instance)
@@ -33,6 +35,16 @@ class Client
 	{
 		$this->transport = new Http(Dsn::ofString($dsn));
 		$this->stacktraceBuilder = new StacktraceBuilder();
+	}
+
+	public function setExtraData(array $extraData)
+	{
+		$this->extraData = $extraData;
+	}
+
+	private function getExtra(string $name)
+	{
+		return $this->extraData[$name] ?? null;
 	}
 
 	public function sendException(\Throwable $exception): ?EventIdentifier
@@ -87,13 +99,20 @@ class Client
 			));
 		}
 
-		$event->setTags($event->getTags());
-
-		if ($event->getServerName())
+		if ($this->getExtra('modules'))
 		{
-			// @todo get portal/server name
-			$event->setServerName('');
+			$event->setModules($this->getExtra('modules'));
 		}
+
+		if ($this->getExtra('requestContext'))
+		{
+			$context = $this->getExtra('requestContext');
+
+			$event->setServerName($context['servername']??'');
+			$event->setContexts($context);
+		}
+
+		$event->setTags($event->getTags());
 
 		if ($event->getEnvironment())
 		{
