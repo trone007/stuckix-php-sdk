@@ -25,6 +25,7 @@ final class Context
 		private ?string $rawFunctionName = null,
 		private ?string $absoluteFilePath = null,
 		private array $variables = [],
+		private array $lines = [],
 	)
 	{	}
 
@@ -214,5 +215,15 @@ final class Context
 	public function isInternal(): bool
 	{
 		return self::CONTEXT_FILENAME === $this->file;
+	}
+
+	public function addLines(array $lines)
+	{
+		$this->lines = $lines;
+	}
+
+	public function getLines()
+	{
+		return $this->lines;
 	}
 }

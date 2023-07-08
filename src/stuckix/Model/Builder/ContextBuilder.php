@@ -7,10 +7,10 @@ use Stuckix\Serializer\ObjectSerializer;
 
 final class ContextBuilder
 {
+	const FILE_LINES = 10;
 	public function __construct(
 		private ObjectSerializer $serializer
-	)
-	{
+	) {
 	}
 
 	public function buildFromBacktraceContext(string $file, int $line, array $backtraceContext): Context
@@ -25,8 +25,8 @@ final class ContextBuilder
 			if (str_starts_with($functionName, Context::ANONYMOUS_CLASS_PREFIX))
 			{
 				$functionName = Context::ANONYMOUS_CLASS_PREFIX.$this->removePrefixFromFilePath(
-						substr($backtraceContext['class'], \strlen(Context::ANONYMOUS_CLASS_PREFIX))
-					);
+					substr($backtraceContext['class'], \strlen(Context::ANONYMOUS_CLASS_PREFIX))
+				);
 			}
 
 			$rawFunctionName = sprintf('%s::%s', $backtraceContext['class'], $backtraceContext['function']);
@@ -48,7 +48,35 @@ final class ContextBuilder
 			$rawFunctionName,
 			Context::CONTEXT_FILENAME !== $file ? $file : null,
 			$this->getMethodArguments($backtraceContext),
+			$this->getRelatedLines($file, $line),
 		);
+	}
+
+	private function getRelatedLines(string $filename, int $line): array
+	{
+		$fileContent = [];
+
+		if (file_exists($filename))
+		{
+			$errorFile = new \SplFileObject($filename);
+
+			$startLine = $line - self::FILE_LINES;
+			$endLine = $line + self::FILE_LINES;
+			if ($startLine <= 0)
+			{
+				$startLine = 0;
+			}
+			for ($curline = $startLine; $curline <= $endLine; $curline++)
+			{
+				if ($errorFile->valid())
+				{
+					$errorFile->seek($curline);
+					$fileContent[$line] = $errorFile->current();
+				}
+			}
+		}
+
+		return $fileContent;
 	}
 
 	private function removePrefixFromFilePath(string $filePath): string
@@ -80,7 +108,8 @@ final class ContextBuilder
 				if (method_exists($backtraceContext['class'], $backtraceContext['function']))
 				{
 					$reflectionFunction = new \ReflectionMethod(
-						$backtraceContext['class'], $backtraceContext['function']
+						$backtraceContext['class'],
+						$backtraceContext['function']
 					);
 				}
 				elseif (isset($backtraceContext['type']) && '::' === $backtraceContext['type'])
@@ -93,8 +122,8 @@ final class ContextBuilder
 				}
 			}
 			elseif (!\in_array($backtraceContext['function'], ['{closure}', '__lambda_func'], true) && \function_exists(
-					$backtraceContext['function']
-				))
+				$backtraceContext['function']
+			))
 			{
 				$reflectionFunction = new \ReflectionFunction($backtraceContext['function']);
 			}
@@ -128,8 +157,7 @@ final class ContextBuilder
 	private function getMethodArgumentValues(
 		\ReflectionFunctionAbstract $reflectionFunction,
 		array $backtraceContextArgs
-	): array
-	{
+	): array {
 		$argumentValues = [];
 
 		foreach ($reflectionFunction->getParameters() as $reflectionParameter)

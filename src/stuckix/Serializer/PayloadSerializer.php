@@ -219,6 +219,11 @@ final class PayloadSerializer
 			$result['vars'] = $context->getVariables();
 		}
 
+		if (!empty($context->getLines()))
+		{
+			$result['lines'] = $context->getLines();
+		}
+
 		return $result;
 	}
 }
