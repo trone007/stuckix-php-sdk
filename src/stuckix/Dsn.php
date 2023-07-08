@@ -75,7 +75,7 @@ final class Dsn implements \Stringable
 
 	public function getApiEndpointUrl(): string
 	{
-		return $this->getBaseEndpointUrl().'api/v1/project/' . $this->token . '/trace';
+		return $this->getBaseEndpointUrl().'/api/v1/project/' . $this->token . '/trace';
 	}
 
 	public function __toString(): string

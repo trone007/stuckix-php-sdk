@@ -61,9 +61,7 @@ class Client
 		try
 		{
 			$response = $this->transport->send($event)->wait();
-			$event = $response->getEvent();
-
-			if (null !== $event)
+			if ($response->getStatusCode() === 200)
 			{
 				return $event->getId();
 			}
