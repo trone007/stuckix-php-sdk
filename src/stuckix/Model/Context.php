@@ -29,8 +29,8 @@ final class Context
 		private array $variables = [],
 		private array $lines = [],
 		private ?string $relativePath = null
-	)
-	{	}
+	) {
+	}
 
 	/**
 	 * @return array
@@ -225,7 +225,7 @@ final class Context
 		$this->lines = $lines;
 	}
 
-	public function getLines()
+	public function getLines(): array
 	{
 		return $this->lines;
 	}

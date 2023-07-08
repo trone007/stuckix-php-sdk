@@ -106,7 +106,7 @@ class Client
 		{
 			$context = $this->getExtra('requestContext');
 
-			$event->setServerName($context['servername']??'');
+			$event->setServerName($context['servername'] ?? '');
 			$event->setContexts($context);
 		}
 
@@ -133,7 +133,8 @@ class Client
 		do
 		{
 			$exceptions[] = new ExceptionData(
-				$exception, $this->stacktraceBuilder->buildFromException($exception),
+				$exception,
+				$this->stacktraceBuilder->buildFromException($exception),
 			);
 		}
 		while ($exception = $eventException->exception->getPrevious());
