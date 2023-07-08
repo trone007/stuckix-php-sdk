@@ -16,7 +16,7 @@ final class Dsn implements \Stringable
 
 	public static function ofString(string $value): self
 	{
-		if (!parse_url($value))
+		if (!($dsn = parse_url($value)))
 		{
 			throw new \InvalidArgumentException(sprintf('The "%s" DSN is invalid.', $value));
 		}
