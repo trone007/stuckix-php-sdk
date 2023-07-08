@@ -110,7 +110,7 @@ class Client
 			$event->setContexts($context);
 		}
 
-		$event->setTags($event->getTags());
+		// $event->setTags($event->getTags());
 
 		if ($event->getEnvironment())
 		{
