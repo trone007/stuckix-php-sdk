@@ -1,20 +1,26 @@
 {
-    "name": "trone007/stuckix-php-sdk",
-    "description": "Stuckix sdk",
-    "version": "0.0.1",
-    "authors": [
-        {
-            "name": "trone007",
-            "email": "scouserlfc91@gmail.com"
-        },
-	{
-	    "name": "skomaroh",
-	    "email": "skomaroh@gmail.com"
+	"name": "trone007/stuckix-php-sdk",
+	"description": "Stuckix sdk",
+	"version": "0.0.1",
+	"authors": [
+		{
+			"name": "trone007",
+			"email": "scouserlfc91@gmail.com"
+		},
+		{
+			"name": "skomaroh",
+			"email": "skomaroh@gmail.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Stuckix\\": "src/stuckix"
+		}
+	},
+	"require": {
+		"php": "^8.0",
+		"guzzlehttp/promises": "^2.0",
+		"ramsey/uuid": "^4.7",
+		"ext-mbstring": "*"
 	}
-    ],
-    "autoload": {
-        "psr-4": {
-            "Stuckix\\": "src/"
-        }
-    }
 }
