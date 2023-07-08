@@ -224,7 +224,7 @@ final class PayloadSerializer
 			$result['lines'] = $context->getLines();
 		}
 
-		if (!empty($context->getRelativePath()))
+		if (null !== $context->getRelativePath())
 		{
 			$result['rel_path'] = $context->getRelativePath();
 		}
