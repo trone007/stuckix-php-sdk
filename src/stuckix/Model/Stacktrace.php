@@ -30,7 +30,7 @@ final class Stacktrace
 			}
 		}
 
-		$this->contexts = $context;
+		$this->contexts = $contexts;
 	}
 
 	public function getContexts(): array

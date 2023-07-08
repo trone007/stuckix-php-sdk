@@ -106,7 +106,7 @@ final class ContextBuilder
 
 		$argumentValues = [];
 
-		if (null !== $reflectionFunction)
+		if ($reflectionFunction)
 		{
 			$argumentValues = $this->getMethodArgumentValues($reflectionFunction, $backtraceContext['args']);
 		}

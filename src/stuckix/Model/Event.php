@@ -8,17 +8,17 @@ final class Event
 
 	private ?float $timestamp;
 
-	private Level $level;
-	private string $serverName;
-	private string $message;
-	private string $messageFormatted;
+	private ?Level $level = null;
+	private ?string $serverName = null;
+	private ?string $message = null;
+	private ?string $messageFormatted = null;
 	private array $messageParams = [];
-	private string $environment;
+	private ?string $environment = null;
 	private array $modules = [];
 	private array $request = [];
 	private array $tags = [];
 
-	private string $os;
+	private ?string $os = null;
 	/**
 	 * @var UserData|null The user context data
 	 */
@@ -71,9 +71,9 @@ final class Event
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getMessage(): string
+	public function getMessage(): ?string
 	{
 		return $this->message;
 	}
@@ -145,16 +145,6 @@ final class Event
 		$this->exceptions = $exceptions;
 	}
 
-	public function getStartTimestamp(): ?float
-	{
-		return $this->startTimestamp;
-	}
-
-	public function setStartTimestamp(?float $startTimestamp): void
-	{
-		$this->startTimestamp = $startTimestamp;
-	}
-
 	public function getTraceId(): ?string
 	{
 		$traceId = $this->getContexts()['trace']['trace_id'];
@@ -208,9 +198,9 @@ final class Event
 	}
 
 	/**
-	 * @return \Stuckix\Model\Level
+	 * @return \Stuckix\Model\Level|null
 	 */
-	public function getLevel(): Level
+	public function getLevel(): ?Level
 	{
 		return $this->level;
 	}
@@ -248,9 +238,9 @@ final class Event
 	}
 
 	/**
-	 * @return mixed
+	 * @return string|null
 	 */
-	public function getMessageFormatted()
+	public function getMessageFormatted(): ?string
 	{
 		return $this->messageFormatted;
 	}
@@ -288,19 +278,19 @@ final class Event
 	}
 
 	/**
-	 * @return mixed
+	 * @return ?string
 	 */
-	public function getEnvironment()
+	public function getEnvironment(): ?string
 	{
 		return $this->environment;
 	}
 
 	/**
-	 * @param mixed $environment
+	 * @param string $environment
 	 *
 	 * @return Event
 	 */
-	public function setEnvironment($environment)
+	public function setEnvironment(string $environment)
 	{
 		$this->environment = $environment;
 
@@ -368,9 +358,9 @@ final class Event
 	}
 
 	/**
-	 * @return string
+	 * @return ?string
 	 */
-	public function getOs(): string
+	public function getOs(): ?string
 	{
 		return $this->os;
 	}

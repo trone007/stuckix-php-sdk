@@ -32,11 +32,6 @@ final class PayloadSerializer
 			'platform' => 'php',
 		];
 
-		if (null !== $event->getStartTimestamp())
-		{
-			$result['start_timestamp'] = $event->getStartTimestamp();
-		}
-
 		if (null !== $event->getLevel())
 		{
 			$result['level'] = (string)$event->getLevel();
@@ -186,7 +181,7 @@ final class PayloadSerializer
 	{
 		$result = [
 			'filename' => $context->getFile(),
-			'lineno' => $context->getLine(),
+			'line_number' => $context->getLine(),
 		];
 
 		if (null !== $context->getAbsoluteFilePath())

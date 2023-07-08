@@ -7,7 +7,7 @@ final class Context
 	public const CONTEXT_FILENAME = '[internal]';
 	public const ANONYMOUS_CLASS_PREFIX = "anonymous@class\x00";
 	private array $preContext = [];
-	private ?string $contextLine;
+	private ?string $contextLine = null;
 	private array $postContext = [];
 
 	/**
