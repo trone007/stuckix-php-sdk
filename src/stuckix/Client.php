@@ -16,9 +16,9 @@ class Client
 {
 	private Dsn $dsn;
 	private StacktraceBuilder $stacktraceBuilder;
-	private static Client $instance;
+	private static ?Client $instance = null;
 
-	public static function get(string $dsn)
+	public static function get(string $dsn): ?Client
 	{
 		if (static::$instance)
 		{
